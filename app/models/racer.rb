@@ -1,15 +1,14 @@
-class Racer < ActiveRecord::Base
-
-@@db = nil
-RACERS = 'racers'
+class Racer
+	include Mongoid::Document
+	include ActiveModel::Model
+	attr_accessor :id, :number, :first_name, :last_name, :gender, :group, :secs		
 
 def self.mongo_client
 	@@db = Mongo::Client.new('mongodb://localhost:27017/test')
 end
 
 def self.collection
-  collection=ENV['RACERS'] ||= RACERS
-  return mongo_client[collection]
+  self.mongo_client['racers']
 end
 
 def self.all(prototype={}, sort={:number=>1}, skip=0, limit=nil)
@@ -18,7 +17,21 @@ def self.all(prototype={}, sort={:number=>1}, skip=0, limit=nil)
   else
 		result = Racer.collection.find(prototype).sort(sort).skip(skip)
 	end
+	return result
 end
+
+def initialize(params={})
+	@id=params[:_id].nil? ? params[:id] : params[:_id].to_s
+	@number=params[:number].to_i
+	@first_name=params[:first_name]
+	@last_name=params[:last_name]
+	@gender=params[:gender]
+	@group=params[:group]
+	@secs=params[:secs]
+end
+
+def self.find(id)
+	
 
 
 end
