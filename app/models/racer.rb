@@ -12,4 +12,13 @@ def self.collection
   return mongo_client[collection]
 end
 
+def self.all(prototype={}, sort={:number=>1}, skip=0, limit=nil)
+  if !limit.nil?
+    result = Racer.collection.find(prototype).sort(sort).skip(skip).limit(limit.to_i) 
+  else
+		result = Racer.collection.find(prototype).sort(sort).skip(skip)
+	end
+end
+
+
 end
