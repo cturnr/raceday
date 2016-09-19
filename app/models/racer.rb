@@ -37,5 +37,30 @@ def self.find id
 	return result.nil? ? nil : Racer.new(result)
 end
 
+def save
+	result=self.class.collection.insert_one(number:@number, first_name: @first_name, 
+  		last_name: @last_name, gender: @gender, group: @group, secs: @secs)
+  	@id=result.inserted_id.to_s
+end
+
+def update(updates)
+	@number=updates[:number].to_i
+  @first_name=updates[:first_name]
+ 	@last_name=updates[:last_name]
+ 	@secs=updates[:secs].to_i
+ 	@gender=updates[:gender]
+ 	@group=updates[:group]
+  	
+  updates.slice!(:number, :first_name, :last_name, :gender, :group, :secs)
+	self.class.collection
+	            .find(:_id=>BSON::ObjectId.from_string(@id))
+	            .replace_one(updates)
+end
+
+def destroy
+	self.class.collection
+	            .find(:_id=>BSON::ObjectId.from_string(@id))
+							.delete_one()
+end
 
 end
