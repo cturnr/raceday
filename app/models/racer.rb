@@ -75,6 +75,23 @@ def updated_at
 	nil
 end
 
+def self.paginate (params)
+	page=(params[:page] || 1).to_i
+	limit=(params[:per_page] || 30).to_i
+	skip=(page-1)*limit
+	
+
+	racers=[]
+		all(params, :_id,skip, limit).each do |doc|
+		racers << Racer.new(doc)
+	end
+		total=all(params, 0, 1).count
+
+	WillPaginate::Collection.create(page, limit, total) do |pager|
+		pager.replace(racers)
+	end
+end
+
 
 
 end
