@@ -30,8 +30,12 @@ def initialize(params={})
 	@secs=params[:secs]
 end
 
-def self.find(id)
-	
+def self.find id
+	result=collection.find(:_id=>BSON::ObjectId.from_string(id))
+  								 .projection({_id:true, number:true, first_name:true, last_name:true, gender:true, group:true, secs:true})
+  							   .first
+	return result.nil? ? nil : Racer.new(result)
+end
 
 
 end
