@@ -41,6 +41,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bson (4.1.1)
+    bson_ext (1.5.1)
     builder (3.2.2)
     byebug (9.0.5)
     capybara (2.7.1)
@@ -188,6 +189,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   byebug
   capybara
   coffee-rails (~> 4.1.0)
@@ -207,4 +209,4 @@ DEPENDENCIES
   will_paginate (~> 3.0.7)
 
 BUNDLED WITH
-   1.12.3
+   1.13.1
